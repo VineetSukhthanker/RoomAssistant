@@ -10,13 +10,13 @@ import time
 import playsound
 import speech_recognition as sr
 from gtts import gTTS
+import pyttsx3
 
 
 def speak(text):
-    tts = gTTS(text=text, lang="en")
-    filename = "voice.mp3"
-    tts.save(filename)
-    playsound.playsound(filename)
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
 
 def get_audio():
     r = sr.Recognizer()
@@ -26,15 +26,15 @@ def get_audio():
 
         try:
             said = r.recognize_google(audio)
-            print(said)
+            speak(said)
 
         except Exception as e:
             print("Exception: " + str(e))
 
     return said
 
-# speak("Speak")
-# get_audio()
+speak("Speak")
+get_audio()
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
@@ -82,5 +82,5 @@ def get_events(m, service):
         start = event['start'].get('dateTime', event['start'].get('date'))
         print(start, event['summary'])
 
-service = get_google_authentication()
-get_events(3,service)
+# service = get_google_authentication()
+# get_events(3,service)
