@@ -26,5 +26,5 @@ def get_audio():
 
     return said
 
-speak("hello")
+speak("Speak")
 get_audio()
