@@ -1,2 +1,8 @@
 # Google Calendar API key
 credentials.json
+
+# venv
+/assist
+
+# misc
+token.pickle
