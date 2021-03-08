@@ -1,17 +1,13 @@
 certifi==2020.12.5
 chardet==4.0.0
 click==7.1.2
-ffmpeg-python==0.2.0
 future==0.18.2
 gTTS==2.2.2
 idna==2.10
 playsound==1.2.2
 PyAudio==0.2.11
-pydub==0.24.1
-pygame==2.0.1
 requests==2.25.1
 ruamel.yaml==0.16.12
-simpleaudio==1.0.4
 six==1.15.0
 SpeechRecognition==3.8.1
 urllib3==1.26.3
