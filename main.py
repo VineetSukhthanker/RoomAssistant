@@ -40,13 +40,19 @@ while True:
     if (text.count("electron") == 1):
         speak("I am ready")
         message = get_audio()
-        speak("playing {song}".format(song=message))
+        message.lower()
+        
+        if(message[0:4] == 'play'):
+            song = message[5:]
+            speak("playing {song}".format(song=song))
 
-        try:
-            play_songs(message)
+            try:
+                play_songs(song)
 
-        except Exception as e:
-            speak("cannot play requested song")
+            except Exception as e:
+                print(e)
+                speak("cannot play requested song")
 
-
+        else:
+            speak("i didn't understand you")
 
