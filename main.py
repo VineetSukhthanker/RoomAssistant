@@ -11,6 +11,7 @@ import playsound
 import speech_recognition as sr
 from gtts import gTTS
 import pyttsx3
+from PlaySongs import play_songs
 
 
 def speak(text):
@@ -26,61 +27,26 @@ def get_audio():
 
         try:
             said = r.recognize_google(audio)
-            speak(said)
 
         except Exception as e:
             print("Exception: " + str(e))
 
     return said
 
-speak("Speak")
-get_audio()
+while True:
+    print("listening...")
+    text = get_audio()
 
-# If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+    if (text.count("electron") == 1):
+        speak("I am ready")
+        message = get_audio()
+        speak("playing {song}".format(song=message))
+
+        try:
+            play_songs(message)
+
+        except Exception as e:
+            speak("cannot play requested song")
 
 
-def get_google_authentication():
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
-    creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
 
-    service = build('calendar', 'v3', credentials=creds)
-
-    return service
-
-def get_events(m, service):
-    # Call the Calendar API
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print("Getting events")
-    events_result = service.events().list(calendarId='primary', timeMin=now,
-                                        maxResults=m, singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
-
-    if not events:
-        print('No upcoming events found.')
-    for event in events:
-        start = event['start'].get('dateTime', event['start'].get('date'))
-        print(start, event['summary'])
-
-# service = get_google_authentication()
-# get_events(3,service)
